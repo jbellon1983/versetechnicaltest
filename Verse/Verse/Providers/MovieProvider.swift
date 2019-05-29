@@ -7,3 +7,23 @@
 //
 
 import Foundation
+
+class MovieProvider {
+    let service: MovieService
+    
+    init(service: MovieService) {
+        self.service = service
+    }
+    
+    func getMovies(query: String, page: Int, onSuccess: @escaping (([Movie]) -> Void), onError: @escaping (() -> Void) ) {
+        service.getMovies(query: query, page: page, onSuccess: { (moviesDto) in
+            var movies : [Movie] = []
+            moviesDto.forEach({ (dto) in
+                movies.append(Movie.init(dto: dto))
+            })
+            onSuccess(movies)
+        }) {
+            onError()
+        }
+    }
+}

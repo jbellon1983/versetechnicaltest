@@ -6,7 +6,7 @@ target 'Verse' do
   use_frameworks!
 
   # Pods for Verse
-  pod 'Moya/RxSwift', '12.0.1'
+  pod 'Moya', '12.0.1'
   pod 'SnapKit', '4.2.0'
   pod 'RxCocoa', '4.5.0'
 
