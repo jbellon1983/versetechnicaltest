@@ -9,6 +9,8 @@ target 'Verse' do
   pod 'Moya', '12.0.1'
   pod 'SnapKit', '4.2.0'
   pod 'RxCocoa', '4.5.0'
+  pod 'SVProgressHUD'
+  pod 'SDWebImage', '4.0'
 
   target 'VerseTests' do
     inherit! :search_paths
