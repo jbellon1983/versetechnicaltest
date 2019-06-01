@@ -33,6 +33,7 @@ class MovieListViewModel : MovieListViewModelProtocol {
     func loadNewSearchMovies(query: String) {
         searchText.accept(query)
         page = 1
+        self.movies.accept([])
         provider.getMovies(query: searchText.value, page: page, onSuccess: { (movies) in
             self.movies.accept(movies)
         }) {

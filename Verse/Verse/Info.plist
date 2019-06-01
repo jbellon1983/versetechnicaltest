@@ -43,5 +43,14 @@
 	</array>
 	<key>API_KEY</key>
 	<string>d4c91d5a26920e19ee91d0a8692bab61</string>
+	<key>HOST_SEARCH</key>
+	<string>https://api.themoviedb.org/3</string>
+	<key>HOST_IMAGES</key>
+	<string>http://image.tmdb.org/t/p</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

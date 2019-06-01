@@ -12,14 +12,13 @@ import RxSwift
 import SnapKit
 
 class MovieListView : UIViewController, UISearchResultsUpdating {
-    let searchController = UISearchController(searchResultsController: nil)
-    var searchBar: UISearchBar { return searchController.searchBar }
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var searchBar: UISearchBar { return searchController.searchBar }
+    private var tableView = UITableView.init()
     
-    var viewModel: MovieListViewModel?
-    let disposeBag = DisposeBag()
-    
-    lazy var tableView = UITableView.init()
-    
+    private var viewModel: MovieListViewModel?
+    private let disposeBag = DisposeBag()
+            
     override func viewDidLoad() {
         super.viewDidLoad()        
         configureSearchController()
@@ -32,14 +31,15 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
         searchController.searchResultsUpdater = self
         searchBar.showsCancelButton = true
         searchBar.text = ""
-        searchBar.placeholder = "search a user by name, surname or email"
+        searchBar.placeholder = "search movies"
         tableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
     }
     
     private func configureTableView() {
         tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: MovieTableViewCell.cellIdentifier)
-        tableView.rowHeight = 50.0
+        tableView.rowHeight = 250.0
+        tableView.separatorStyle = .none        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.bottom.left.right.equalTo(view)
@@ -49,13 +49,14 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
     private func bind() {
         viewModel?.movies.bind(to: tableView.rx.items(cellIdentifier: MovieTableViewCell.cellIdentifier, cellType: MovieTableViewCell.self))
         { (row, element, cell) in
-            cell.textLabel?.text = "\(element.title)"
+            cell.loadMovie(element)
         }.disposed(by: disposeBag)
         
         tableView.rx.willDisplayCell
         .subscribe(onNext: { cell, indexPath in
             guard let movies = self.viewModel?.movies.value else { return }
             if indexPath.row == movies.count-1 {
+                print("getting more movies")
                 self.viewModel?.loadMoreMovies()
             }
         })
@@ -66,6 +67,7 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text, !text.isEmpty {
+            tableView.setContentOffset(.zero, animated: true)
             viewModel?.loadNewSearchMovies(query: text)
         }
     }

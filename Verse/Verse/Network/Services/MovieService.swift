@@ -10,7 +10,8 @@ import Foundation
 import Moya
 
 class MovieService {
-    let provider = MoyaProvider<MovieEndpoint>()
+    public static let search_host = Bundle.main.infoDictionary?["HOST_IMAGES"] as! String
+    private let provider = MoyaProvider<MovieEndpoint>()
     
     func getMovies(query: String, page: Int, onSuccess: @escaping (([MovieDto]) -> Void), onError: @escaping (() -> Void) )  {
         let endpoint : MovieEndpoint = .search(query: query, page: page)

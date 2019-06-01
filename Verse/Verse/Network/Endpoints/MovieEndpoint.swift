@@ -17,7 +17,7 @@ extension MovieEndpoint : TargetType {
     var baseURL: URL {
         switch self {
         case .search:
-            return URL.init(string: "https://api.themoviedb.org/3")!
+            return URL.init(string: Bundle.main.infoDictionary?["HOST_SEARCH"] as! String)!
         }
     }
     
