@@ -16,7 +16,7 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
     private var searchBar: UISearchBar { return searchController.searchBar }
     private var tableView = UITableView.init()
     
-    private var viewModel: MovieListViewModel?
+    private var viewModel: MovieListViewModelProtocol?
     private let disposeBag = DisposeBag()
             
     override func viewDidLoad() {
@@ -27,6 +27,7 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
     }
     
     private func configureSearchController() {
+        self.title = "Movies"
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchBar.showsCancelButton = true
@@ -39,7 +40,8 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
     private func configureTableView() {
         tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: MovieTableViewCell.cellIdentifier)
         tableView.rowHeight = 250.0
-        tableView.separatorStyle = .none        
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.bottom.left.right.equalTo(view)
@@ -56,25 +58,33 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
         .subscribe(onNext: { cell, indexPath in
             guard let movies = self.viewModel?.movies.value else { return }
             if indexPath.row == movies.count-1 {
-                print("getting more movies")
                 self.viewModel?.loadMoreMovies()
             }
         })
         .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+        .subscribe(onNext: { [weak self] indexPath in
+            self?.tableView.deselectRow(at: indexPath, animated: false)
+            guard let movie = self?.viewModel?.movies.value[indexPath.row] else { return }
+            MainCoordinator.shared.navigateTo(module: .movieProfile(movie: movie))
+        }).disposed(by: disposeBag)
+
     }
     
     // MARK: UISearchResultsUpdating
     
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text, !text.isEmpty {
-            tableView.setContentOffset(.zero, animated: true)
             viewModel?.loadNewSearchMovies(query: text)
+        } else {
+            viewModel?.resetMovies()
         }
     }
     
     static func view(viewModel: MovieListViewModel) -> UIViewController {
         guard let view = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieListView") as? MovieListView else {
-            fatalError("Cannot instantiate UsersView")
+            fatalError("Cannot instantiate MovieListView")
         }
         view.viewModel = viewModel
         return view

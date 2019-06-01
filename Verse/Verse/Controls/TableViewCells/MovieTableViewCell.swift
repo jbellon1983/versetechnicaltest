@@ -15,6 +15,9 @@ class MovieTableViewCell : UITableViewCell {
     
     let imageMovie = UIImageView.init()
     let titleLabel = UILabel.init()
+    let overviewLabel = UILabel.init()
+    let imageVote = UIImageView.init()
+    let voteLabel = UILabel.init()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +33,8 @@ class MovieTableViewCell : UITableViewCell {
     public func loadMovie(_ movie: Movie) {
         loadMovieImage(movie)
         loadTitle(movie)
+        loadOverview(movie)
+        loadVotes(movie)
     }
     
     private func loadMovieImage(_ movie: Movie) {
@@ -52,6 +57,29 @@ class MovieTableViewCell : UITableViewCell {
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(imageMovie.snp.right).offset(15)
             make.top.equalTo(self.snp.top).offset(50)
+        }
+    }
+    
+    private func loadOverview(_ movie: Movie) {
+        self.addSubview(overviewLabel)
+        overviewLabel.numberOfLines = 4
+        overviewLabel.lineBreakMode = .byTruncatingTail
+        overviewLabel.text = movie.overview
+        overviewLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(imageMovie.snp.right).offset(15)
+            make.top.equalTo(titleLabel.snp.bottom).offset(15)
+            make.right.equalTo(self).offset(-15)
+        }
+    }
+    
+    private func loadVotes(_ movie: Movie) {
+        self.addSubview(imageVote)
+        imageVote.image = UIImage.init(named: "like")
+        imageVote.contentMode = .scaleAspectFit
+        imageVote.snp.makeConstraints { (make) in
+            make.left.equalTo(imageMovie.snp.right).offset(15)
+            make.top.equalTo(overviewLabel.snp.bottom).offset(15)
+            make.width.height.equalTo(35)
         }
     }
     

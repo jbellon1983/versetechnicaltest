@@ -11,7 +11,7 @@ import UIKit
 
 enum Modules {
     case movieList
-    case movieProfile
+    case movieProfile(movie: Movie)
 }
 
 protocol Coordinator {
@@ -42,9 +42,8 @@ class MainCoordinator: Coordinator {
         switch module {
         case .movieList:
             vc = MovieListView.view(viewModel: MovieListViewModel.init(provider: MovieProvider.init(service: MovieService())))
-        case .movieProfile:
-            //vc = UserProfileView.view(viewModel: UserProfileViewModel.init(email: user.email))
-            vc = UIViewController.init()
+        case .movieProfile(let movie):
+            vc = MovieProfileView.view(viewModel: MovieProfileViewModel.init(movie: movie))            
         }
         navigationController.pushViewController(vc, animated: true)
     }

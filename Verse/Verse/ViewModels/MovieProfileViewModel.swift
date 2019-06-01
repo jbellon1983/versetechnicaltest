@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import RxCocoa
+
+protocol MovieProfileViewModelProtocol {
+    var movie: Movie { get }
+}
+
+class MovieProfileViewModel : MovieProfileViewModelProtocol {
+    
+    var movie: Movie
+    
+    init(movie: Movie) {
+        self.movie = movie
+    }
+}
