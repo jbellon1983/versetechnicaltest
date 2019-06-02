@@ -8,14 +8,19 @@
 
 import Foundation
 
-class MovieProvider {
+//sourcery: AutoMockable
+protocol MovieProviderProtocol {
+    func getMovies(query: String, page: Int, onSuccess: @escaping (([Movie]) -> Void), onError: @escaping (() -> Void) )
+}
+
+class MovieProvider : MovieProviderProtocol {
     let service: MovieService
     
     init(service: MovieService) {
         self.service = service
     }
     
-    public func getMovies(query: String, page: Int, onSuccess: @escaping (([Movie]) -> Void), onError: @escaping (() -> Void) ) {
+    func getMovies(query: String, page: Int, onSuccess: @escaping (([Movie]) -> Void), onError: @escaping (() -> Void) ) {
         service.getMovies(query: query, page: page, onSuccess: { (moviesDto) in
             var movies : [Movie] = []
             moviesDto.forEach({ (dto) in

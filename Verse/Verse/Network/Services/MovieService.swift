@@ -9,11 +9,16 @@
 import Foundation
 import Moya
 
-class MovieService {
+//sourcery: AutoMockable
+protocol MovieServiceProtocol {
+    func getMovies(query: String, page: Int, onSuccess: @escaping (([MovieDto]) -> Void), onError: @escaping (() -> Void) )
+}
+
+class MovieService : MovieServiceProtocol {
     public static let search_host = Bundle.main.infoDictionary?["HOST_IMAGES"] as! String
     private let provider = MoyaProvider<MovieEndpoint>()
     
-    public func getMovies(query: String, page: Int, onSuccess: @escaping (([MovieDto]) -> Void), onError: @escaping (() -> Void) )  {
+    func getMovies(query: String, page: Int, onSuccess: @escaping (([MovieDto]) -> Void), onError: @escaping (() -> Void) )  {
         let endpoint : MovieEndpoint = .search(query: query, page: page)
         provider.request(endpoint) { (result) in
             switch result {

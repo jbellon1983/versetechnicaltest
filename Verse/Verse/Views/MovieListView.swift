@@ -87,7 +87,7 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
         }
     }
     
-    static func view(viewModel: MovieListViewModel) -> UIViewController {
+    static func view(viewModel: MovieListViewModelProtocol) -> UIViewController {
         guard let view = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieListView") as? MovieListView else {
             fatalError("Cannot instantiate MovieListView")
         }

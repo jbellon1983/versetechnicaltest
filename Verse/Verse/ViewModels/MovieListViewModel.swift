@@ -26,9 +26,9 @@ class MovieListViewModel : MovieListViewModelProtocol {
     var searchText: BehaviorRelay<String>
     var page: Int = 0
     
-    let provider : MovieProvider
+    let provider : MovieProviderProtocol
 
-    init(provider: MovieProvider) {
+    init(provider: MovieProviderProtocol) {
         self.provider = provider
         disposeBag = DisposeBag.init()
         searchText = BehaviorRelay.init(value: "")
