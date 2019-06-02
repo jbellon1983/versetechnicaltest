@@ -1,26 +1,26 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'Verse' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for Verse
+def common_pods
   pod 'Moya', '12.0.1'
   pod 'SnapKit', '4.2.0'
   pod 'RxCocoa', '4.5.0'
   pod 'SVProgressHUD'
   pod 'SDWebImage', '4.0'
   pod 'Hero'
+end
 
-  target 'VerseTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+target 'Verse' do
+  platform :ios, '9.0'
+  use_frameworks!
+  # Pods for Verse
+  common_pods
+end
 
-  target 'VerseUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+target 'VerseTests' do
+  platform :ios, '9.0'
+  use_frameworks!
+  # Pods for testing
+  common_pods
+  pod 'SwiftyMocky'
 end

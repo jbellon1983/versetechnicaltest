@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+//sourcery: AutoMockable
 protocol MovieListViewModelProtocol {
     var searchText: BehaviorRelay<String> { get }
     var movies: BehaviorRelay<[Movie]> { get }

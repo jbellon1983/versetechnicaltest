@@ -9,6 +9,7 @@
 import Foundation
 import RxCocoa
 
+//sourcery: AutoMockable
 protocol MovieProfileViewModelProtocol {
     var movie: Movie { get }
 }

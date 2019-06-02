@@ -1,0 +1,19 @@
+sources:
+  include:
+    - ./Verse
+    - ./VerseTests
+templates:
+  - ./Pods/SwiftyMocky/Sources/Templates # Different for Carthage installation
+output:
+  ./Verse
+args:
+  testable:
+    - Verse
+  import:
+    - RxSwift
+    - RxCocoa
+  excludedSwiftLintRules:
+    - force_cast
+    - function_body_length
+    - line_length
+    - vertical_whitespace
