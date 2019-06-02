@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 import SnapKit
+import Hero
 
 class MovieListView : UIViewController, UISearchResultsUpdating {
     private let searchController = UISearchController(searchResultsController: nil)
@@ -57,8 +58,11 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
         tableView.rx.willDisplayCell
         .subscribe(onNext: { cell, indexPath in
             guard let movies = self.viewModel?.movies.value else { return }
-            if indexPath.row == movies.count-1 {
+            if indexPath.row == movies.count-10 {
                 self.viewModel?.loadMoreMovies()
+            }
+            if let movie = self.viewModel?.movies.value[indexPath.row] {
+                cell.hero.id = movie.title
             }
         })
         .disposed(by: disposeBag)
@@ -75,6 +79,7 @@ class MovieListView : UIViewController, UISearchResultsUpdating {
     // MARK: UISearchResultsUpdating
     
     func updateSearchResults(for searchController: UISearchController) {
+        guard searchController.searchBar.text != viewModel?.searchText.value else { return }
         if let text = searchController.searchBar.text, !text.isEmpty {
             viewModel?.loadNewSearchMovies(query: text)
         } else {

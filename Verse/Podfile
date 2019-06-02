@@ -11,6 +11,7 @@ target 'Verse' do
   pod 'RxCocoa', '4.5.0'
   pod 'SVProgressHUD'
   pod 'SDWebImage', '4.0'
+  pod 'Hero'
 
   target 'VerseTests' do
     inherit! :search_paths

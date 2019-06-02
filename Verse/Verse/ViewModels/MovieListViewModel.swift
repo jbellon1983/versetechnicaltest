@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol MovieListViewModelProtocol {
+    var searchText: BehaviorRelay<String> { get }
     var movies: BehaviorRelay<[Movie]> { get }
     func loadNewSearchMovies(query: String)
     func loadMoreMovies()
@@ -19,9 +20,9 @@ protocol MovieListViewModelProtocol {
 
 class MovieListViewModel : MovieListViewModelProtocol {
     
-    let searchText: BehaviorRelay<String>
     let disposeBag: DisposeBag
     var movies = BehaviorRelay<[Movie]>.init(value: [])
+    var searchText: BehaviorRelay<String>
     var page: Int = 0
     
     let provider : MovieProvider
@@ -55,6 +56,7 @@ class MovieListViewModel : MovieListViewModelProtocol {
     }
     
     func resetMovies() {
+        self.searchText.accept("")
         self.movies.accept([])
     }
     

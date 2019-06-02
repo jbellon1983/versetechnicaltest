@@ -39,7 +39,7 @@ class MovieTableViewCell : UITableViewCell {
     
     private func loadMovieImage(_ movie: Movie) {
         if let temp = URL.init(string: MovieService.search_host), let path = movie.poster_path {
-            imageMovie.sd_setImage(with: temp.appendingPathComponent("w92").appendingPathComponent(path))
+            imageMovie.sd_setImage(with: temp.appendingPathComponent("w780").appendingPathComponent(path))
         }
         self.addSubview(imageMovie)
         imageMovie.snp.makeConstraints { (make) in
@@ -53,10 +53,13 @@ class MovieTableViewCell : UITableViewCell {
     private func loadTitle(_ movie: Movie) {        
         self.addSubview(titleLabel)
         titleLabel.text = movie.title
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 30.0)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(imageMovie.snp.right).offset(15)
-            make.top.equalTo(self.snp.top).offset(50)
+            make.top.equalTo(self.snp.top).offset(15)
+            make.right.equalTo(self).offset(-15)
         }
     }
     
@@ -74,13 +77,20 @@ class MovieTableViewCell : UITableViewCell {
     
     private func loadVotes(_ movie: Movie) {
         self.addSubview(imageVote)
+        self.addSubview(voteLabel)
         imageVote.image = UIImage.init(named: "like")
         imageVote.contentMode = .scaleAspectFit
+        voteLabel.text = String(movie.vote_count)
         imageVote.snp.makeConstraints { (make) in
             make.left.equalTo(imageMovie.snp.right).offset(15)
             make.top.equalTo(overviewLabel.snp.bottom).offset(15)
             make.width.height.equalTo(35)
         }
+        voteLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(imageVote.snp.right).offset(15)
+            make.top.equalTo(overviewLabel.snp.bottom).offset(25)
+        }
+        
     }
     
     static var cellIdentifier: String {

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Hero
 
 enum Modules {
     case movieList
@@ -45,6 +46,7 @@ class MainCoordinator: Coordinator {
         case .movieProfile(let movie):
             vc = MovieProfileView.view(viewModel: MovieProfileViewModel.init(movie: movie))            
         }
+        navigationController.hero.isEnabled = true
         navigationController.pushViewController(vc, animated: true)
     }
 }
