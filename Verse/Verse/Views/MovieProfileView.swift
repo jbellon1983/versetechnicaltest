@@ -15,7 +15,6 @@ import Hero
 class MovieProfileView : UIViewController {
     
     public var viewModel: MovieProfileViewModelProtocol?
-    public var backgroundImage: UIImageView?
     
     private let titleText = UILabel.init()
 
@@ -39,6 +38,7 @@ class MovieProfileView : UIViewController {
         }
         if let temp = URL.init(string: MovieService.search_host), let path = viewModel?.movie.poster_path {
             background.sd_setImage(with: temp.appendingPathComponent("w780").appendingPathComponent(path))
+            background.sd_setImageWithPreviousCachedImage(with: temp.appendingPathComponent("w780").appendingPathComponent(path), placeholderImage: nil, options: .highPriority, progress: nil, completed: nil)
             background.contentMode = .scaleAspectFill
         }
     }

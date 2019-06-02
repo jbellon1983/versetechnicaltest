@@ -15,7 +15,7 @@ class MovieProvider {
         self.service = service
     }
     
-    func getMovies(query: String, page: Int, onSuccess: @escaping (([Movie]) -> Void), onError: @escaping (() -> Void) ) {
+    public func getMovies(query: String, page: Int, onSuccess: @escaping (([Movie]) -> Void), onError: @escaping (() -> Void) ) {
         service.getMovies(query: query, page: page, onSuccess: { (moviesDto) in
             var movies : [Movie] = []
             moviesDto.forEach({ (dto) in
